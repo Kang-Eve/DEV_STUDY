@@ -35,14 +35,19 @@ public class socketServer {
             br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  // Client 에서 데이터 가져올 준비
             pw = new PrintWriter(clientSocket.getOutputStream());   // Client 로 데이터 보낼 준비
 
-            String readData = "";
 
-            while (!(readData = br.readLine()).equals(null)) {
+            while (true) {
+                String readData = br.readLine();
+
+                if (readData.equals("exit")) {
+                    readData = "BYE";
+                }
                 System.out.println("from Client>" + readData);
                 pw.println(readData);   // 가져온 메시지를 그대로 다시 Client 로 전달
                 pw.flush();     // 메모리를 초기화 시켜야 데이터가 보내진다.
+
             }
-            clientSocket.close();   // 소켓 통신 완료시 close 메서드로 Client 연결 종료
+//            clientSocket.close();   // 소켓 통신 완료시 close 메서드로 Client 연결 종료
         }catch (Exception e) {
             e.printStackTrace();
         }

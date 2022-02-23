@@ -14,7 +14,13 @@ public class socketClient {
     private PrintWriter pw;
     private Scanner sc;
 
+//    socketClient 클래스를 실행할 수 있는 "main" 매소드
+//    public - "main" 메소드의 접근제어자, 누구나 접근 가능하다는 의미
+//    static 지정하면 해당 메소드는 인스턴스 생성 없이 실행 가능
+//    void - 메소드의 리턴값이 없음
+//    args - String[] 자료형의 변수명
     public static void main(String[] args) {
+//        socketClient 객체를 만듦
         new socketClient();
     }
 
@@ -31,16 +37,20 @@ public class socketClient {
             pw = new PrintWriter(clientSocket.getOutputStream());
 
             sc = new Scanner(System.in);
-
-            String inputData = "";
-
-//            do while 찾아보기
-            while(!inputData.equals("exit")) {
+////            do while 찾아보기
+            while(true) {
                 System.out.print("to Server: ");
                 pw.println(sc.next());
                 pw.flush();
 
-                System.out.println("from Server: " + br.readLine());
+                String received = br.readLine();
+
+                System.out.println("from Server: " + received);
+
+                if (received.equals("exit")) {
+                    break;
+                }
+
             }
             clientSocket.close();
         }catch (IOException e) {
